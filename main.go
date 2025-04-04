@@ -12,31 +12,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Middleware de ejemplo para pruebas
-func TestMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// Permitir solicitudes desde cualquier origen para pruebas (CORS)
+func main() {
+	// Configurar Gin
+	r := gin.Default()
+
+	// Configuración CORS más completa
+	r.Use(func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization, Origin")
+		c.Header("Access-Control-Allow-Credentials", "true")
 
-		// Si es una solicitud OPTIONS, responder inmediatamente
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
 			return
 		}
 
-		// Continuar con la siguiente función en la pila de middlewares
 		c.Next()
-	}
-}
-
-func main() {
-	// Configurar Gin
-	r := gin.Default()
-
-	// Agregar el middleware de prueba
-	r.Use(TestMiddleware())
+	})
 
 	// Inicializar el hub de WebSocket y el consumidor
 	hub := infrastructure.NewHub()
