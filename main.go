@@ -53,12 +53,12 @@ func main() {
 
 	// Iniciar servidor en una goroutine
 	go func() {
-		if err := r.Run(":8005"); err != nil {
+		if err := r.Run(":8005 xd"); err != nil {
 			log.Fatalf("Failed to start server: %v", err)
 		}
 	}()
 
-	log.Println("Server started on port 8005")
+	log.Println("Server started on port 8005 apoco si")
 	log.Println("Order consumer started")
 
 	// Esperar señal de apagado
